@@ -46,8 +46,52 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button btnUp = findViewById(R.id.btnForward);
+        Button btnDown = findViewById(R.id.btnBackward);
         Button btnLeft = findViewById(R.id.btnLeft);
         Button btnRight = findViewById(R.id.btnRight);
+
+        btnUp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (powerSwitch.isChecked()) {
+                            sendOperationRequest("forward");
+                            currentOp = "forward";
+                        }
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        if (powerSwitch.isChecked()) {
+                            sendOperationRequest("halt");
+                            currentOp = "halt";
+                        }
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        btnDown.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (powerSwitch.isChecked()) {
+                            sendOperationRequest("backward");
+                            currentOp = "backward";
+                        }
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        if (powerSwitch.isChecked()) {
+                            sendOperationRequest("halt");
+                            currentOp = "halt";
+                        }
+                        return true;
+                }
+                return false;
+            }
+        });
 
 
         btnLeft.setOnTouchListener(new View.OnTouchListener() {
@@ -88,18 +132,6 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         if (powerSwitch.isChecked()) {
             switch (view.getId()) {
-                case R.id.btnForward:
-                    sendOperationRequest("forward");
-                    currentOp = "forward";
-                    break;
-                case R.id.btnBackward:
-                    sendOperationRequest("backward");
-                    currentOp = "backward";
-                    break;
-                case R.id.btnHalt:
-                    sendOperationRequest("halt");
-                    currentOp = "halt";
-                    break;
                 case R.id.btnStream:
                     startStream();
                     break;
