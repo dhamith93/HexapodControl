@@ -1,5 +1,6 @@
 package com.example.dhamith93.hexapodcontrol;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private String serverAddress;
     private String currentOp;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,35 +40,45 @@ public class MainActivity extends AppCompatActivity {
         serverAddress = "http://192.168.4.1:8081";
         currentOp = "halt";
 
-        powerSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String op = (powerSwitch.isChecked()) ? "start" : "stop";
-                sendOperationRequest(op);
-            }
-        });
-
         Button btnUp = findViewById(R.id.btnForward);
         Button btnDown = findViewById(R.id.btnBackward);
         Button btnLeft = findViewById(R.id.btnLeft);
         Button btnRight = findViewById(R.id.btnRight);
+        final Switch dangerSwitch = findViewById(R.id.dangerSwitch);
+
+        powerSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String op = powerSwitch.isChecked() ? "start" : "stop";
+                sendOperationRequest(op);
+            }
+        });
+
+        dangerSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (powerSwitch.isChecked()) {
+                    String op = "emergency_";
+                    op += dangerSwitch.isChecked() ? "on" : "off";
+                    sendOperationRequest(op);
+                }
+            }
+        });
 
         btnUp.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (powerSwitch.isChecked()) {
+                if (powerSwitch.isChecked()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
                             sendOperationRequest("forward");
                             currentOp = "forward";
-                        }
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        if (powerSwitch.isChecked()) {
+                            return true;
+                        case MotionEvent.ACTION_UP:
                             sendOperationRequest("halt");
                             currentOp = "halt";
-                        }
-                        return true;
+                            return true;
+                    }
                 }
                 return false;
             }
@@ -75,37 +87,34 @@ public class MainActivity extends AppCompatActivity {
         btnDown.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (powerSwitch.isChecked()) {
+                if (powerSwitch.isChecked()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
                             sendOperationRequest("backward");
                             currentOp = "backward";
-                        }
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        if (powerSwitch.isChecked()) {
+                            return true;
+                        case MotionEvent.ACTION_UP:
                             sendOperationRequest("halt");
                             currentOp = "halt";
-                        }
-                        return true;
+                            return true;
+                    }
                 }
                 return false;
             }
         });
 
-
         btnLeft.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (powerSwitch.isChecked())
+                if (powerSwitch.isChecked()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
                             sendOperationRequest("left");
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        if (powerSwitch.isChecked())
+                            return true;
+                        case MotionEvent.ACTION_UP:
                             sendOperationRequest(currentOp);
-                        return true;
+                            return true;
+                    }
                 }
                 return false;
             }
@@ -114,15 +123,15 @@ public class MainActivity extends AppCompatActivity {
         btnRight.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (powerSwitch.isChecked())
+                if (powerSwitch.isChecked()) {
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
                             sendOperationRequest("right");
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        if (powerSwitch.isChecked())
+                            return true;
+                        case MotionEvent.ACTION_UP:
                             sendOperationRequest(currentOp);
-                        return true;
+                            return true;
+                    }
                 }
                 return false;
             }

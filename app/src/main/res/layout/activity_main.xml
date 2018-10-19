@@ -80,4 +80,13 @@
         android:layout_marginEnd="11dp"
         android:layout_marginTop="21dp"
         android:text="Power" />
+
+    <Switch
+        android:id="@+id/dangerSwitch"
+        android:layout_width="164dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/powerSwitch"
+        android:layout_marginStart="22dp"
+        android:text="Emergency LED" />
 </android.widget.RelativeLayout>
