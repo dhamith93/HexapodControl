@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnLeft = findViewById(R.id.btnLeft);
         Button btnRight = findViewById(R.id.btnRight);
         final Switch dangerSwitch = findViewById(R.id.dangerSwitch);
+        final Switch ledSwitch = findViewById(R.id.ledSwitch);
 
         powerSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +61,17 @@ public class MainActivity extends AppCompatActivity {
                 if (powerSwitch.isChecked()) {
                     String op = "emergency_";
                     op += dangerSwitch.isChecked() ? "on" : "off";
+                    sendOperationRequest(op);
+                }
+            }
+        });
+
+        ledSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (powerSwitch.isChecked()) {
+                    String op = "light_";
+                    op += ledSwitch.isChecked() ? "on" : "off";
                     sendOperationRequest(op);
                 }
             }

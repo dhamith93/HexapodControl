@@ -83,10 +83,20 @@
 
     <Switch
         android:id="@+id/dangerSwitch"
-        android:layout_width="164dp"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="61dp"
+        android:text="Emergency Light" />
+
+    <Switch
+        android:id="@+id/ledSwitch"
+        android:layout_width="106dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/powerSwitch"
-        android:layout_marginStart="22dp"
-        android:text="Emergency LED" />
+        android:layout_marginStart="80dp"
+        android:text="Lights" />
 </android.widget.RelativeLayout>
